@@ -1,0 +1,34 @@
+{
+  "name" : "@gorenje/node-red-presenter-mode",
+  "version": "0.0.4",
+  "dependencies": {
+  },
+
+  "description": "Add presenter mode and actions for switching modes.",
+  "keywords": [
+    "node-red"
+  ],
+
+  "license": "Don't do evil.",
+  "homepage": "https://github.com/gorenje/node-red-presenter-mode#readme",
+  "author": "Gerrit Riessen <gerrit@flowhub.org>",
+  "engines": {
+    "node": ">=20"
+  },
+
+  "node-red" : {
+    "version": ">=5.0.0",
+    "plugins": {
+        "sidebar-plugin": "plugins/presentermode.html"
+    }
+
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gorenje/node-red-presenter-mode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gorenje/node-red-presenter-mode"
+  }
+}

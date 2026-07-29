@@ -1,0 +1,269 @@
+<script type="text/javascript">
+(function() {
+
+   let setupClassicDefaultMode = () => {
+      let switchFunctMode = () => {
+         // show the right sidebar
+         if (!$("#red-ui-sidebar-separator").is(":visible")) {
+            RED.actions.invoke("core:toggle-right-sidebar")
+         }
+
+         // show the left sidebar
+         if (!$("#red-ui-sidebar-left-separator").is(":visible")) {
+            RED.actions.invoke("core:toggle-left-sidebar")
+         }
+
+         // show the four panels
+         if (!$('.red-ui-debug-container').is(":visible")) {
+            $('[data-tab-id=debug]').trigger('click')
+         }
+
+         if (!$('.red-ui-info-outline').is(":visible")) {
+            $('[data-tab-id=explorer]').trigger('click')
+         }
+
+         if (!$('.red-ui-sidebar-info').is(":visible")) {
+            $('[data-tab-id=info]').trigger('click')
+         }
+
+         if (!$('#red-ui-palette').is(":visible")) {
+            $('[data-tab-id=palette]').trigger('click')
+         }
+
+         // if coming from presentor more, footer might be hidden
+         if (!$('#red-ui-workspace-footer').is(":visible")) {
+            $('#red-ui-workspace-footer').toggle()
+            $('#red-ui-workspace-scroll-h').css('bottom', '36px')
+         }
+      }
+
+      let actionName = "presenter-mode:node-red-default-view"
+      let modeName = "Node-RED default"
+
+      RED.actions.remove(actionName)
+      RED.actions.add(actionName, () => {
+         switchFunctMode()
+         RED.notify(`Activated ${modeName} mode`, { type: "success" })
+      })
+
+      RED.presenterMode.add(modeName, switchFunctMode)
+   }
+
+   
+   var registerPluginOnAdd = () => {
+      let fillInSidebarForm = () => {
+         RED.events.off('flows:loaded', fillInSidebarForm );
+
+         (function () {
+
+    let controls = "<button class='red-ui-button back-btn'>&lt;</button><button class='red-ui-button forw-btn'>&gt;</button>&nbsp;&nbsp;<button class='red-ui-button cls-btn'>X</button>"
+
+    // add the controls
+    $('#red-ui-sidebar-left').find('.red-ui-sidebar-section-top').find('.red-ui-sidebar-banner-tools').html(controls)
+    $('#red-ui-sidebar-left').find('.red-ui-sidebar-section-bottom').find('.red-ui-sidebar-banner-tools').html(controls)
+    $('#red-ui-sidebar-container').find('.red-ui-sidebar-section-top').find('.red-ui-sidebar-banner-tools').html(controls)
+    $('#red-ui-sidebar-container').find('.red-ui-sidebar-section-bottom').find('.red-ui-sidebar-banner-tools').html(controls)
+
+    let closeFunct = (btngrp) => {
+        $(btngrp).find('.selected').trigger('click')
+    }
+
+    // activate the close button
+    $('#red-ui-sidebar-left').find('.red-ui-sidebar-section-top').find('.red-ui-sidebar-banner-tools').find('.cls-btn').on('click', () => {
+        closeFunct($('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[0])
+    })
+
+    $('#red-ui-sidebar-left').find('.red-ui-sidebar-section-bottom').find('.red-ui-sidebar-banner-tools').find('.cls-btn').on('click', () => {
+        closeFunct($('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[1])
+    })
+
+    $('#red-ui-sidebar-container').find('.red-ui-sidebar-section-top').find('.red-ui-sidebar-banner-tools').find('.cls-btn').on('click', () => {
+        closeFunct($('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[2])
+    })
+
+    $('#red-ui-sidebar-container').find('.red-ui-sidebar-section-bottom').find('.red-ui-sidebar-banner-tools').find('.cls-btn').on('click', () => {
+        closeFunct($('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[3])
+    })
+
+    // forward button
+    // functionality
+    let nextFunct = (btngrp) => {
+        let nxt = $($(btngrp).find('.selected')).next()
+        if (nxt.length > 0) {
+            $(nxt).trigger('click')
+        } else {
+            $($(btngrp).find("button").get()[0]).trigger('click')
+        }
+    }
+
+    $('#red-ui-sidebar-left').find('.red-ui-sidebar-section-top').find('.red-ui-sidebar-banner-tools').find('.forw-btn').on('click', () => {
+        let btngrp = $('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[0]
+        nextFunct(btngrp)
+    })
+
+    $('#red-ui-sidebar-left').find('.red-ui-sidebar-section-bottom').find('.red-ui-sidebar-banner-tools').find('.forw-btn').on('click', () => {
+        let btngrp = $('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[1]
+        nextFunct(btngrp)
+    })
+
+    $('#red-ui-sidebar-container').find('.red-ui-sidebar-section-top').find('.red-ui-sidebar-banner-tools').find('.forw-btn').on('click', () => {
+        let btngrp = $('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[2]
+        nextFunct(btngrp)
+    })
+
+    $('#red-ui-sidebar-container').find('.red-ui-sidebar-section-bottom').find('.red-ui-sidebar-banner-tools').find('.forw-btn').on('click', () => {
+        let btngrp = $('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[3]
+        nextFunct(btngrp)
+    })
+
+    // previous button
+    // functionality
+    let prevFunct = (btngrp) => {
+        let prev = $($(btngrp).find('.selected')).prev()
+        if (prev.length > 0) {
+            $(prev).trigger('click')
+        } else {
+            $($(btngrp).find("button").get().reverse()[0]).trigger('click')
+        }
+    }
+
+    $('#red-ui-sidebar-left').find('.red-ui-sidebar-section-top').find('.red-ui-sidebar-banner-tools').find('.back-btn').on('click', () => {
+        let btngrp = $('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[0]
+        prevFunct(btngrp)
+    })
+
+    $('#red-ui-sidebar-left').find('.red-ui-sidebar-section-bottom').find('.red-ui-sidebar-banner-tools').find('.back-btn').on('click', () => {
+        let btngrp = $('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[1]
+        prevFunct(btngrp)
+    })
+
+    $('#red-ui-sidebar-container').find('.red-ui-sidebar-section-top').find('.red-ui-sidebar-banner-tools').find('.back-btn').on('click', () => {
+        let btngrp = $('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[2]
+        prevFunct(btngrp)
+    })
+
+    $('#red-ui-sidebar-container').find('.red-ui-sidebar-section-bottom').find('.red-ui-sidebar-banner-tools').find('.back-btn').on('click', () => {
+        let btngrp = $('#red-ui-workspace-footer').find(".red-ui-sidebar-tab-bar").find(".button-group")[3]
+        prevFunct(btngrp)
+    })
+
+})();
+
+         
+         RED.presenterMode ||= {
+            add: (name, funct) => {
+               if (typeof funct == "function") {
+                  RED.presenterMode.store[name] = funct
+               }
+            },
+            next: () => {
+               let modes = Object.keys(RED.presenterMode.store)
+               if (modes.length == 0 ) { return }
+
+               if (RED.presenterMode.current == "") {
+                  RED.presenterMode.current = modes[0]
+               } else {
+                  let idx = modes.indexOf(RED.presenterMode.current) + 1
+                  if (idx >= modes.length) { idx = 0 }
+                  RED.presenterMode.current = modes[idx]
+               }
+
+               RED.notify(`Presenter Mode: Switching to ${RED.presenterMode.current}`, { type: "success"})
+               RED.presenterMode.store[RED.presenterMode.current].call()
+            },
+            prev: () => {
+               let modes = Object.keys(RED.presenterMode.store)
+               if (modes.length == 0 ) { return }
+
+               if (RED.presenterMode.current == "") {
+                  RED.presenterMode.current = modes[modes.length - 1]
+               } else {
+                  let idx = modes.indexOf(RED.presenterMode.current) - 1
+                  if (idx < 0) { idx = modes.length - 1 }
+                  RED.presenterMode.current = modes[idx]
+               }
+
+               RED.notify(`Presenter Mode: Switching to ${RED.presenterMode.current}`, { type: "success"})
+               RED.presenterMode.store[RED.presenterMode.current].call()
+            },
+            reset: () => {
+               if (RED.presenterMode.current == "") { return }
+               RED.notify(`Presenter Mode: Resetting ${RED.presenterMode.current}`, { type: "success"})
+               RED.presenterMode.store[RED.presenterMode.current].call()
+            },
+            current: "",
+            store: {}
+         }
+
+         let togglePresenterMode = () => {
+            $('#red-ui-workspace-footer').toggle()
+            $('#red-ui-workspace-scroll-v').toggle()
+            $('#red-ui-workspace-scroll-h').toggle()
+
+            if ($('#red-ui-workspace-footer').is(":visible")) {
+               if (!$("#red-ui-sidebar-separator").is(":visible")) {
+                     RED.actions.invoke("core:toggle-right-sidebar")
+               }
+
+               if (!$("#red-ui-sidebar-left-separator").is(":visible")) {
+                     RED.actions.invoke("core:toggle-left-sidebar")
+               }
+
+               $('#red-ui-workspace-scroll-h').css('bottom', '36px')
+            } else {
+               if ($("#red-ui-sidebar-separator").is(":visible")) {
+                     RED.actions.invoke("core:toggle-right-sidebar")
+               }
+
+               if ($("#red-ui-sidebar-left-separator").is(":visible")) {
+                     RED.actions.invoke("core:toggle-left-sidebar")
+               }
+
+               $('#red-ui-workspace-scroll-h').css('bottom', '5px')
+            }
+
+            // hide the scrollbars after 1.5 secs of inactivity.
+            (function(){
+               var hidescrollers = () => {
+                  $('#red-ui-workspace-scroll-v').fadeOut(300)
+                  $('#red-ui-workspace-scroll-h').fadeOut(300)
+               };
+
+               var hiderscrollerstimeoutid = setTimeout(hidescrollers, 1500)
+
+               var eventHandler = () => {
+                  clearTimeout(hiderscrollerstimeoutid)
+                  hiderscrollerstimeoutid = setTimeout(hidescrollers, 1500)
+               }
+
+               RED.events.off('view:navigate', eventHandler)
+               RED.events.on('view:navigate', eventHandler)
+            })();
+         }
+
+         RED.actions.remove("presenter-mode:presenter-mode-toggle")
+         RED.actions.add("presenter-mode:presenter-mode-toggle", togglePresenterMode) 
+
+         RED.actions.remove("presenter-mode:presenter-mode-next")
+         RED.actions.add("presenter-mode:presenter-mode-next", RED.presenterMode.next)
+
+         RED.actions.remove("presenter-mode:presenter-mode-previous")
+         RED.actions.add("presenter-mode:presenter-mode-previous", RED.presenterMode.prev)
+
+         RED.actions.remove("presenter-mode:presenter-mode-reset")
+         RED.actions.add("presenter-mode:presenter-mode-reset", RED.presenterMode.reset)
+
+         setupClassicDefaultMode()
+
+         RED.events.emit("presenter-mode:initialised")
+      }
+      RED.events.on('flows:loaded', fillInSidebarForm )
+   };
+
+   RED.plugins.registerPlugin("presentermode-sidebar-plugin", { onadd: registerPluginOnAdd });
+})();
+</script>
+
+<!-- The html for the right sidebar plugin screen -->
+<script type="text/x-red" data-template-name="presentermode">
+</script>
