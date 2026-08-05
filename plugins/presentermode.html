@@ -154,27 +154,38 @@
     RED.events.on("search:open", () => {
         $($('.red-ui-sidebar-right').find('.red-ui-sidebar-section-bottom')).fadeOut(500)
         $($('.red-ui-sidebar-right').find('.red-ui-sidebar-section-top')).fadeOut(500)
+        // hide the right scroller, else left if a dangling scrollbar.
+        $('#red-ui-workspace-scroll-v').fadeOut(500)
     })
 
     RED.events.on("search:close", () => {
         $($('.red-ui-sidebar-right').find('.red-ui-sidebar-section-bottom')).fadeIn(500)
         $($('.red-ui-sidebar-right').find('.red-ui-sidebar-section-top')).fadeIn(500)
+
+        // only show if the scroll bars should be shown
+        if ( $('#red-ui-workspace-scroll-h').is(":visible") ) {
+            $('#red-ui-workspace-scroll-v').fadeIn(500)
+        }
     })
 
 })();
          
-         // hide the scrollbars after 1.5 secs of inactivity.
+         //
+// hide the scrollbars after 1.5 secs of inactivity.
+//
 (function () {
+   var delayBeforeHiding = 1500 // milliseconds
+
    var hidescrollers = () => {
       $('#red-ui-workspace-scroll-v').fadeOut(300)
       $('#red-ui-workspace-scroll-h').fadeOut(300)
    };
 
-   var hiderscrollerstimeoutid = setTimeout(hidescrollers, 1500)
+   var hiderscrollerstimeoutid = setTimeout(hidescrollers, delayBeforeHiding)
 
    var eventHandler = () => {
       clearTimeout(hiderscrollerstimeoutid)
-      hiderscrollerstimeoutid = setTimeout(hidescrollers, 1500)
+      hiderscrollerstimeoutid = setTimeout(hidescrollers, delayBeforeHiding)
    }
 
    RED.events.off('view:navigate', eventHandler)
