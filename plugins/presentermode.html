@@ -49,7 +49,6 @@
       RED.presenterMode.add(modeName, switchFunctMode)
    }
 
-   
    var registerPluginOnAdd = () => {
       let fillInSidebarForm = () => {
          RED.events.off('flows:loaded', fillInSidebarForm );
@@ -150,6 +149,39 @@
 })();
 
          
+         (function () {
+
+    RED.events.on("search:open", () => {
+        $($('.red-ui-sidebar-right').find('.red-ui-sidebar-section-bottom')).fadeOut(500)
+        $($('.red-ui-sidebar-right').find('.red-ui-sidebar-section-top')).fadeOut(500)
+    })
+
+    RED.events.on("search:close", () => {
+        $($('.red-ui-sidebar-right').find('.red-ui-sidebar-section-bottom')).fadeIn(500)
+        $($('.red-ui-sidebar-right').find('.red-ui-sidebar-section-top')).fadeIn(500)
+    })
+
+})();
+         
+         // hide the scrollbars after 1.5 secs of inactivity.
+(function () {
+   var hidescrollers = () => {
+      $('#red-ui-workspace-scroll-v').fadeOut(300)
+      $('#red-ui-workspace-scroll-h').fadeOut(300)
+   };
+
+   var hiderscrollerstimeoutid = setTimeout(hidescrollers, 1500)
+
+   var eventHandler = () => {
+      clearTimeout(hiderscrollerstimeoutid)
+      hiderscrollerstimeoutid = setTimeout(hidescrollers, 1500)
+   }
+
+   RED.events.off('view:navigate', eventHandler)
+   RED.events.on('view:navigate', eventHandler)
+})();
+
+
          RED.presenterMode ||= {
             add: (name, funct) => {
                if (typeof funct == "function") {
@@ -221,24 +253,6 @@
 
                $('#red-ui-workspace-scroll-h').css('bottom', '5px')
             }
-
-            // hide the scrollbars after 1.5 secs of inactivity.
-            (function(){
-               var hidescrollers = () => {
-                  $('#red-ui-workspace-scroll-v').fadeOut(300)
-                  $('#red-ui-workspace-scroll-h').fadeOut(300)
-               };
-
-               var hiderscrollerstimeoutid = setTimeout(hidescrollers, 1500)
-
-               var eventHandler = () => {
-                  clearTimeout(hiderscrollerstimeoutid)
-                  hiderscrollerstimeoutid = setTimeout(hidescrollers, 1500)
-               }
-
-               RED.events.off('view:navigate', eventHandler)
-               RED.events.on('view:navigate', eventHandler)
-            })();
          }
 
          RED.actions.remove("presenter-mode:presenter-mode-toggle")
