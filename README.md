@@ -28,6 +28,13 @@ The scrollbars are hidden automatically after 1.5 seconds because I don't use th
 
 See [forum](https://discourse.nodered.org/t/non-transparent-background-needed-for-editor-status-and-horizontal-scroll/101590/5?u=gregorius).
 
+## Allow clicking on the preview node creates selected node
+
+![img](https://cdn.openmindmap.org/content/1793004082876_Screenshot_2026-10-26_at_09.36.05.png)
+
+See [forum](https://discourse.nodered.org/t/nr5-preview-node-creates-new-node/101389) and [GitHub](https://github.com/node-red/node-red/issues/5851).
+
+
 # Artifacts
 
 - [@ FlowHub.org](https://flowhub.org/f/83b86eac1a8f5436)

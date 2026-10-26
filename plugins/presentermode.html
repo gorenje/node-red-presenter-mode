@@ -53,6 +53,13 @@
       let fillInSidebarForm = () => {
          RED.events.off('flows:loaded', fillInSidebarForm );
 
+         RED.events.on('type-search:open', () => {
+  $('.red-ui-flow-node-placeholder').on('mousedown', () => {
+    $($('#red-ui-type-search').find('li.selected')).find('.red-ui-search-result').trigger('click')
+  })
+})
+
+         
          (function () {
 
     let controls = "<button class='red-ui-button back-btn'>&lt;</button><button class='red-ui-button forw-btn'>&gt;</button>&nbsp;&nbsp;<button class='red-ui-button cls-btn'>X</button>"
