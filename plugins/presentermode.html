@@ -52,13 +52,6 @@
    var registerPluginOnAdd = () => {
       let fillInSidebarForm = () => {
          RED.events.off('flows:loaded', fillInSidebarForm );
-
-         RED.events.on('type-search:open', () => {
-  $('.red-ui-flow-node-placeholder').on('mousedown', () => {
-    $($('#red-ui-type-search').find('li.selected')).find('.red-ui-search-result').trigger('click')
-  })
-})
-
          
          (function () {
 
@@ -289,7 +282,15 @@
 
          RED.events.emit("presenter-mode:initialised")
       }
+      
       RED.events.on('flows:loaded', fillInSidebarForm )
+
+      RED.events.on('type-search:open', () => {
+  $('.red-ui-flow-node-placeholder').on('mousedown', () => {
+    $($('#red-ui-type-search').find('li.selected')).find('.red-ui-search-result').trigger('click')
+  })
+})
+
    };
 
    RED.plugins.registerPlugin("presentermode-sidebar-plugin", { onadd: registerPluginOnAdd });
