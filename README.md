@@ -34,6 +34,11 @@ See [forum](https://discourse.nodered.org/t/non-transparent-background-needed-fo
 
 See [forum](https://discourse.nodered.org/t/nr5-preview-node-creates-new-node/101389) and [GitHub](https://github.com/node-red/node-red/issues/5851).
 
+## Add Safe Triangles to the menu
+
+Prevents the submenus from being hidden if the cursor takes the shortest route to the menu.
+
+See [forum](https://discourse.nodered.org/t/ux-safe-triangles-for-menus-interactions/102058).
 
 # Artifacts
 

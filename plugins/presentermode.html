@@ -193,6 +193,59 @@
 })();
 
 
+         // Adds a "safe triangle" so that submenus don't disappear
+// See --> https://discourse.nodered.org/t/ux-safe-triangles-for-menus-interactions/102058
+// for more details
+(() => {
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+
+ Object.assign( svg.style, {
+    position: "fixed",
+    inset: "0",
+    width: "100vw",
+    height: "100vh",
+    pointerEvents: "none",
+    zIndex: "1000",
+  });
+
+  const tri = document.createElementNS(ns, "polygon");
+  tri.setAttribute("fill", "red");
+  tri.setAttribute("fill-opacity", "0.01");
+  tri.style.pointerEvents = "auto";
+
+  svg.append(tri);
+
+  function clear() {
+    tri.removeAttribute("points");
+    svg.remove();
+  }
+
+  document.addEventListener("mousemove", (e) => {
+      if (e.target === tri) return;
+
+      const li = e.target.closest?.("li.red-ui-menu-dropdown-submenu");
+      if (!li) return clear();
+
+      const anchorId = li.querySelector(":scope > a")?.id;
+      const subMenu = anchorId && document.getElementById(anchorId + "-submenu");
+
+      if (!subMenu) return clear();
+      if (subMenu.contains(e.target)) return clear();
+
+      const r = subMenu.getBoundingClientRect();
+      if (!r.width || !r.height) return clear();
+
+      const x = e.clientX < r.left ? r.left : r.right;
+      tri.setAttribute("points", `${x},${r.top},${x},${r.bottom},${e.clientX},${e.clientY}`);
+
+      if (svg.parentElement !== li) li.append(svg);
+    },
+    true // capture events before passing on events.
+  );
+})();
+
+         
          RED.presenterMode ||= {
             add: (name, funct) => {
                if (typeof funct == "function") {
