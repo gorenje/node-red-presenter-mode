@@ -331,6 +331,17 @@
          RED.actions.remove("presenter-mode:presenter-mode-reset")
          RED.actions.add("presenter-mode:presenter-mode-reset", RED.presenterMode.reset)
 
+         // add an action for delete the current tab, this is bound to ctrl-w to act
+         // as a close tab action.
+         let deleteCurrentWorkspace = () => {
+            RED.editor.editFlow(RED.nodes.workspace(RED.workspaces.active() ))
+            setTimeout( () => {
+               $('#node-dialog-delete').trigger('click')
+            },449) // allow the editor panel to slide into view
+         }
+         RED.actions.remove("presenter-mode:delete-current-workspace")
+         RED.actions.add("presenter-mode:delete-current-workspace", deleteCurrentWorkspace)
+
          setupClassicDefaultMode()
 
          RED.events.emit("presenter-mode:initialised")

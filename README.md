@@ -40,7 +40,13 @@ Prevents the submenus from being hidden if the cursor takes the shortest route t
 
 See [forum](https://discourse.nodered.org/t/ux-safe-triangles-for-menus-interactions/102058).
 
+## Added delete active tab action
+
+`Delete current workspace` can be assigned to a shortcut to not just hide a flow tab but also delete it.
+
 # Artifacts
+
+This codebase is maintained by a Node-RED [flow](https://flowhub.org/f/83b86eac1a8f5436) that maintains the flowing artifacts: 
 
 - [@ FlowHub.org](https://flowhub.org/f/83b86eac1a8f5436)
 - [@ GitHub](https://github.com/gorenje/node-red-presenter-mode)
