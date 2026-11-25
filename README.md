@@ -36,13 +36,27 @@ See [forum](https://discourse.nodered.org/t/nr5-preview-node-creates-new-node/10
 
 ## Add Safe Triangles to the menu
 
-Prevents the submenus from being hidden if the cursor takes the shortest route to the menu.
+Prevents the submenus from being hidden if the cursor takes the shortest route to the menu. A [good writeup](https://sorenblank.com/craft/the-invisible-shape) that describes the problem in detail also presents alternative solutions for those interested in the problem.
 
 See [forum](https://discourse.nodered.org/t/ux-safe-triangles-for-menus-interactions/102058).
 
 ## Added delete active tab action
 
 `Delete current workspace` can be assigned to a shortcut to not just hide a flow tab but also delete it.
+
+![img](https://cdn.openmindmap.org/content/alt-w-delete-current-workspace.png)
+
+## Align links to either Source or Destination
+
+Straighten links for any connection. Align-middle/top/bottom straighten links for single output nodes but fail when there are multi-output-ports nodes are defined.
+
+![img](https://cdn.openmindmap.org/content/align-link-to-source-or-target.gif)
+
+Added this to the shortcut definition for easy usage:
+
+![img](https://cdn.openmindmap.org/content/shortcut-align-link.png)
+
+Also see [forum](https://discourse.nodered.org/t/straighten-links-between-nodes/102237) post.
 
 # Artifacts
 
